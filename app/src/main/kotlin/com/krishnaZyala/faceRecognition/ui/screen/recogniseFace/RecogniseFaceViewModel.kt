@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.krishnaZyala.faceRecognition.data.Repository
 import com.krishnaZyala.faceRecognition.data.model.ProcessedImage
+import com.krishnaZyala.faceRecognition.lib.AiModel.mobileNet
 import com.krishnaZyala.faceRecognition.lib.AiModel.recognizeFace
-import com.krishnaZyala.faceRecognition.lib.AiModel.validateFace
 import com.krishnaZyala.faceRecognition.lib.LOG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +45,7 @@ class RecogniseFaceViewModel @Inject constructor(private val repo: Repository) :
                 data.landmarks = data.face?.allLandmarks ?: listOf()
                 image.value = data
                 recognizedFace.value = recognizeFace(data, images)
-                recognizedFace.value = recognizedFace.value?.copy(spoof = validateFace(data).getOrNull())
+                recognizedFace.value = recognizedFace.value?.copy(spoof = mobileNet(data).getOrNull())
 
             }.onFailure { LOG.e(it, it.message) }
         }

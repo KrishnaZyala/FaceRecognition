@@ -21,9 +21,9 @@ fun FaceAnalytics(image: ProcessedImage, modifier: Modifier = Modifier) = Column
 ) {
     if (image.name.isNotEmpty()) Text(text = image.name, style = MaterialTheme.typography.titleMedium)
     image.similarity?.let { InfoItem("Cosine Similarity", "${String.format("%.1f", it * 100F)}%") }
-    image.distance?.let { InfoItem("Euclidean Distance", String.format("%.2f", it * 100F)) }
+    image.distance?.let { InfoItem("Euclidean Distance", String.format("%.2f", it)) }
+    image.spoof?.let { InfoItem("Real Probability", "${(it * 100).toInt()}%") }
     image.face?.let {
-        InfoItem("Real Probability", "${((image.spoof ?: 0).toFloat() * 100).toInt()}%")
         InfoItem("Smiling Probability", "${((it.smilingProbability ?: 0).toFloat() * 100).toInt()}%")
         InfoItem("Left Eye Open", "${((it.rightEyeOpenProbability ?: 0).toFloat() * 100).toInt()}%")
         InfoItem("Right Eye Open", "${((it.leftEyeOpenProbability ?: 0).toFloat() * 100).toInt()}%")
